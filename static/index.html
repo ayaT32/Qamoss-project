@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قاموس | أدوات المعرفة والتحقق</title>
+<meta name="description" content="قاموس — باحث المصادر ومدقق الاقتباسات للمحتوى الإسلامي الرقمي">
+<style>
+:root{
+  --bg:#e9e4f4;
+  --bg2:#f7f4fc;
+  --navy:#303583;
+  --navy2:#20255f;
+  --blue:#2b568d;
+  --cyan:#31d6c9;
+  --cyan2:#72e6df;
+  --white:#fff;
+  --ink:#252b59;
+  --muted:#68709a;
+  --line:rgba(48,53,131,.14);
+  --shadow:0 18px 50px rgba(36,42,100,.13);
+  --shadow2:0 8px 28px rgba(36,42,100,.10);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,.75), transparent 28%),
+    radial-gradient(circle at 90% 20%, rgba(114,230,223,.08), transparent 25%),
+    var(--bg);
+  font-family:"Segoe UI","Tahoma","Arial",sans-serif;
+  line-height:1.75;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+body:before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; opacity:.22; z-index:-1;
+  background-image:
+    radial-gradient(ellipse 60px 95px at 50% 0%, transparent 48%, rgba(48,53,131,.11) 50%, transparent 53%),
+    radial-gradient(ellipse 60px 95px at 0% 50%, transparent 48%, rgba(48,53,131,.11) 50%, transparent 53%);
+  background-size:170px 170px;
+}
+
+.header{
+  position:sticky;top:0;z-index:50;
+  margin:0 auto;
+  background:rgba(31,37,95,.96);
+  backdrop-filter:blur(14px);
+  color:white;
+  border-radius:0 0 28px 28px;
+  box-shadow:0 8px 30px rgba(25,29,79,.22);
+}
+.nav{
+  max-width:1250px;margin:auto;padding:13px 22px;
+  display:flex;align-items:center;gap:22px;
+}
+.brand{display:flex;align-items:center;gap:12px;margin-left:auto}
+.brand-mark{
+  width:45px;height:45px;border-radius:50%;
+  border:2px solid rgba(114,230,223,.75);
+  display:grid;place-items:center;
+  color:var(--cyan2);font-weight:900;font-size:22px;
+  box-shadow:inset 0 0 0 5px rgba(114,230,223,.08);
+}
+.brand strong{font-size:25px;letter-spacing:-.5px}
+.brand small{display:block;color:#bfc7e7;font-size:10px;line-height:1.2}
+.navlinks{display:flex;gap:6px;align-items:center}
+.navlinks a{
+  padding:9px 15px;border-radius:13px;color:#dce1fa;font-size:14px;
+  transition:.25s ease;
+}
+.navlinks a:hover,.navlinks a.active{background:rgba(114,230,223,.13);color:white}
+.menu-btn{
+  display:none;background:transparent;color:white;border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:7px 10px;
+}
+
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.container{max-width:1250px;margin:auto;padding:0 22px}
+.hero{
+  min-height:590px;display:flex;align-items:center;position:relative;
+  padding:65px 0 75px;overflow:hidden;
+}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:45px;align-items:center;width:100%}
+.eyebrow{color:#433de2;font-weight:800;font-size:14px;margin-bottom:12px}
+h1{font-size:clamp(38px,5vw,68px);line-height:1.18;margin:0 0 22px;color:var(--navy);letter-spacing:-1.8px}
+.hero p{font-size:19px;color:#4f5988;max-width:730px;margin:0 0 27px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  border:0;border-radius:14px;padding:13px 20px;font-weight:800;
+  transition:.22s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:var(--navy);color:white;box-shadow:0 9px 24px rgba(48,53,131,.22)}
+.btn-primary:hover{transform:translateY(-2px);background:#252a72}
+.btn-primary:disabled{opacity:.6;cursor:wait;transform:none}
+.btn-secondary{background:rgba(255,255,255,.62);color:var(--navy);border:1px solid rgba(48,53,131,.18)}
+.btn-secondary:hover{background:white;transform:translateY(-2px)}
+.hero-card{
+  position:relative;min-height:360px;border-radius:34px;
+  background:linear-gradient(145deg,#303583,#263f7e);
+  color:white;box-shadow:var(--shadow);padding:30px;overflow:hidden;
+}
+.hero-card:before{
+  content:"";position:absolute;width:330px;height:330px;border-radius:50%;
+  border:1px solid rgba(114,230,223,.22);left:-100px;top:-130px;
+  box-shadow:0 0 0 35px rgba(114,230,223,.035),0 0 0 70px rgba(114,230,223,.025);
+}
+.hero-card:after{
+  content:"";position:absolute;width:190px;height:190px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);right:-70px;bottom:-70px;
+}
+.card-label{color:var(--cyan2);font-weight:800;font-size:13px}
+.hero-card h2{font-size:30px;line-height:1.35;margin:10px 0 16px}
+.feature-list{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.feature-list li{display:flex;gap:10px;align-items:flex-start;color:#e9edff;font-size:14px}
+.check{width:24px;height:24px;border-radius:8px;background:rgba(114,230,223,.14);color:var(--cyan2);display:grid;place-items:center;flex:0 0 auto}
+
+.section{padding:75px 0}
+.section-head{text-align:center;max-width:780px;margin:0 auto 38px}
+.section-head .eyebrow{margin-bottom:5px}
+.section-head h2{font-size:38px;line-height:1.25;color:var(--navy);margin:0 0 10px}
+.section-head p{color:var(--muted);margin:0}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{
+  background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.8);
+  border-radius:var(--radius);padding:26px;box-shadow:var(--shadow2);
+  transition:.25s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.icon{
+  width:53px;height:53px;border-radius:16px;display:grid;place-items:center;
+  background:rgba(48,53,131,.08);color:var(--navy);font-size:23px;margin-bottom:15px
+}
+.card h3{margin:0 0 8px;color:var(--navy);font-size:21px}
+.card p{margin:0;color:#626b91;font-size:14px}
+
+.dark-band{
+  margin:20px 0 0;background:linear-gradient(120deg,#292d78,#1f5a83);
+  color:white;border-radius:34px;padding:42px;position:relative;overflow:hidden;
+}
+.dark-band:after{content:"";position:absolute;inset:-70px auto auto -40px;width:260px;height:260px;border:1px solid rgba(114,230,223,.15);border-radius:50%;box-shadow:0 0 0 35px rgba(114,230,223,.04),0 0 0 70px rgba(114,230,223,.025)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:1}
+.metric{text-align:center}.metric b{font-size:34px;color:var(--cyan2);display:block}.metric span{color:#d9e1fa;font-size:13px}
+
+.app-head{padding:55px 0 25px}
+.app-head h1{font-size:46px;margin-bottom:10px}
+.app-head p{color:var(--muted);max-width:800px}
+.tool-layout{display:grid;grid-template-columns:1fr .75fr;gap:24px;padding-bottom:75px}
+.panel{
+  background:rgba(255,255,255,.76);border:1px solid rgba(255,255,255,.9);
+  border-radius:28px;padding:27px;box-shadow:var(--shadow2)
+}
+.panel h3{margin:0 0 15px;color:var(--navy);font-size:22px}
+.searchbox{display:flex;gap:9px}
+.input,.textarea{
+  width:100%;border:1px solid rgba(48,53,131,.15);background:#fbfaff;
+  color:var(--ink);outline:none;border-radius:14px;padding:13px 15px;
+  transition:.2s;
+}
+.input:focus,.textarea:focus{border-color:#666be4;box-shadow:0 0 0 4px rgba(102,107,228,.09)}
+.textarea{min-height:190px;resize:vertical}
+.results{display:grid;gap:13px;margin-top:20px}
+.result{
+  border:1px solid rgba(48,53,131,.12);background:white;border-radius:18px;padding:18px;
+  transition:.2s
+}
+.result:hover{border-color:rgba(48,53,131,.28);transform:translateY(-2px)}
+.result-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+.result h4{margin:0;color:var(--navy);font-size:18px}
+.meta{font-size:12px;color:#777f9e;margin:4px 0 10px}
+.quote{font-family:"Times New Roman","Noto Naskh Arabic",serif;font-size:19px;line-height:2;color:#25294e;background:#f7f4fc;border-radius:12px;padding:12px 14px}
+.badge{display:inline-flex;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:800;background:#edf0ff;color:var(--navy)}
+.empty{text-align:center;color:#8088a8;padding:35px 10px}
+.helper{
+  margin-top:15px;padding:14px 15px;background:#f1f7ff;border-right:4px solid var(--blue);
+  border-radius:12px;color:#566083;font-size:13px
+}
+.helper.err{background:#fff1f1;border-color:#cc4444;color:#7a2222}
+.status{
+  border-radius:18px;padding:18px;margin-top:18px;border:1px solid rgba(48,53,131,.12);
+}
+.status.exact{background:#edf9f6;border-color:#bfece2}
+.status.meaning{background:#eef5ff;border-color:#c7daf4}
+.status.wrong{background:#fff1f1;border-color:#f2cccc}
+.status.unknown{background:#fff9ea;border-color:#eedda4}
+.status-title{font-weight:900;font-size:19px;margin-bottom:5px}
+.status small{color:#69718e}
+.score{
+  height:9px;background:#e8e9f4;border-radius:99px;overflow:hidden;margin:13px 0 7px
+}
+.score i{display:block;height:100%;width:0;background:linear-gradient(90deg,#31d6c9,#4d6ae6);transition:width .6s}
+.guide{display:grid;gap:11px}
+.guide-item{display:flex;gap:12px;align-items:flex-start}
+.step{width:30px;height:30px;display:grid;place-items:center;background:var(--navy);color:white;border-radius:10px;font-weight:800;flex:0 0 auto}
+.guide-item p{margin:0;color:#626b91;font-size:13px}
+
+.footer{background:#1d2259;color:#cbd1ed;padding:35px 0;margin-top:20px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.footer strong{color:white}.footer small{color:#aeb6d8}
+
+.toast{
+  position:fixed;bottom:24px;left:24px;background:#1f255f;color:white;padding:12px 17px;
+  border-radius:14px;box-shadow:var(--shadow);transform:translateY(100px);opacity:0;transition:.3s;z-index:100
+}
+.toast.show{transform:none;opacity:1}
+
+@media(max-width:850px){
+  .navlinks{display:none;position:absolute;top:70px;right:12px;left:12px;background:#222762;padding:10px;border-radius:18px;flex-direction:column;align-items:stretch}
+  .navlinks.open{display:flex}
+  .navlinks a{text-align:center}
+  .menu-btn{display:block}
+  .hero-grid,.tool-layout{grid-template-columns:1fr}
+  .hero{padding-top:45px}
+  .cards{grid-template-columns:1fr}
+  .metrics{grid-template-columns:1fr}
+  .dark-band{padding:30px 20px}
+  .app-head h1{font-size:38px}
+}
+@media(max-width:520px){
+  .container{padding:0 15px}
+  .nav{padding:11px 15px}
+  .hero{min-height:auto}
+  h1{font-size:39px}
+  .hero p{font-size:16px}
+  .hero-card{min-height:auto}
+  .searchbox{flex-direction:column}
+  .footer-inner{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <nav class="nav">
+    <div class="brand">
+      <div class="brand-mark">ق</div>
+      <div><strong>قاموس</strong><small>أدوات المعرفة والتحقق</small></div>
+    </div>
+    <div class="navlinks" id="navlinks">
+      <a href="#home" data-route="home">الرئيسية</a>
+      <a href="#researcher" data-route="researcher">باحث المصادر</a>
+      <a href="#verifier" data-route="verifier">مدقق الاقتباسات</a>
+    </div>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="القائمة">☰</button>
+  </nav>
+</header>
+
+<main>
+<section class="page active" id="home">
+  <div class="container hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">عن التحدي • أدوات المعرفة والتحقق</div>
+        <h1>نحو محتوى إسلامي رقمي<br>أكثر موثوقية</h1>
+        <p>
+          «قاموس» أداة واحدة بوظيفتين متكاملتين: تبحث عن المصادر الموثقة،
+          وتدقق الاقتباسات الشرعية دون اختلاق نصوص أو مراجع.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#researcher">ابدأ بباحث المصادر ←</a>
+          <a class="btn btn-secondary" href="#verifier">جرّب مدقق الاقتباسات</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="card-label">قاعدة الأمان</div>
+        <h2>لا نعرف؟ لا نخمن.</h2>
+        <ul class="feature-list">
+          <li><span class="check">✓</span><span>لا يُعرض نص شرعي إلا إذا كان موجودًا في قاعدة المصادر الموثقة.</span></li>
+          <li><span class="check">✓</span><span>عند الشك أو غياب المرجع، تمتنع الأداة وتحيل إلى مختص.</span></li>
+          <li><span class="check">✓</span><span>كل نتيجة قابلة للتتبع عبر اسم المصدر والرقم والرابط.</span></li>
+          <li><span class="check">✓</span><span>عند تعذر التحقق، يقترح الباحث أقرب النصوص الموثقة.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="section-head">
+      <div class="eyebrow">كيف يعمل «قاموس»؟</div>
+      <h2>وظيفتان، هدف واحد</h2>
+      <p>تقليل الأخطاء في نقل النصوص الشرعية، مع الحفاظ على المصدر والتتبع والامتناع عند عدم كفاية الدليل.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="icon">⌕</div>
+        <h3>باحث المصادر</h3>
+        <p>ابحث بالكلمات أو جزء من النص، واحصل على المقاطع ذات الصلة مع المصدر والرقم والرابط.</p>
+        <br><a class="btn btn-secondary" href="#researcher">فتح الباحث</a>
+      </article>
+      <article class="card">
+        <div class="icon">✓</div>
+        <h3>مدقق الاقتباسات</h3>
+        <p>ألصق آية أو حديثًا أو نقلًا، ثم شاهد التصنيف والمرجع وأقرب نص موثق عند الحاجة.</p>
+        <br><a class="btn btn-secondary" href="#verifier">فتح المدقق</a>
+      </article>
+      <article class="card">
+        <div class="icon">◈</div>
+        <h3>استرجاع هجين</h3>
+        <p>تصميم يجمع التطبيع العربي والمطابقة النصية والاسترجاع الدلالي وإعادة ترتيب النتائج.</p>
+        <br><a class="btn btn-secondary" href="#verifier">اعرف المزيد</a>
+      </article>
+    </div>
+
+    <div class="dark-band">
+      <div class="metrics">
+        <div class="metric"><b>4</b><span>حالات للتحقق: مطابق، بالمعنى، غير مطابق، لم يُعثر عليه</span></div>
+        <div class="metric"><b>0</b><span>توليد لنص شرعي جديد خارج قاعدة الأمان</span></div>
+        <div class="metric"><b id="caseCountMetric">—</b><span>حالة اختبار مع مراجعة مختص شرعي</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="researcher">
+  <div class="container app-head">
+    <div class="eyebrow">أداة 01</div>
+    <h1>باحث المصادر</h1>
+    <p>ابحث عن النصوص الموثقة من قاعدة المصادر الحقيقية المفهرسة في الخادم. النتائج مسترجَعة مباشرة من واجهة البرمجة <code>/search</code>.</p>
+  </div>
+  <div class="container tool-layout">
+    <div class="panel">
+      <h3>ابحث في المصادر</h3>
+      <div class="searchbox">
+        <input class="input" id="sourceSearch" placeholder="مثال: إن مع العسر يسرا أو الأعمال بالنيات">
+        <button class="btn btn-primary" id="searchBtn" onclick="searchSources()">بحث</button>
+      </div>
+      <div class="helper" id="searchHelper">اكتب سؤالك أو جزءًا من النص، ثم اضغط «بحث». النتائج تأتي من قاعدة المصادر الحقيقية فقط.</div>
+      <div class="results" id="sourceResults"></div>
+    </div>
+
+    <aside class="panel">
+      <h3>منهجية البحث</h3>
+      <div class="guide">
+        <div class="guide-item"><span class="step">1</span><p><b>تطبيع عربي:</b> إزالة التشكيل والتطويل وتوحيد أشكال الحروف للمقارنة.</p></div>
+        <div class="guide-item"><span class="step">2</span><p><b>استرجاع دلالي:</b> نموذج تضمين متعدد اللغات (BGE-M3) يبحث داخل قاعدة Chroma المتجهية.</p></div>
+        <div class="guide-item"><span class="step">3</span><p><b>مطابقة نصية:</b> يُحسب تشابه دقيق بين النص المدخل وأقرب مقطع.</p></div>
+        <div class="guide-item"><span class="step">4</span><p><b>عرض موثق:</b> كل نتيجة تُعرض مع مصدرها ورقمها ورابطها — لا توليد بلا سند.</p></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="page" id="verifier">
+  <div class="container app-head">
+    <div class="eyebrow">أداة 02</div>
+    <h1>مدقق الاقتباسات</h1>
+    <p>ألصق النص المنقول، ثم اضغط «تحقق». النظام يقارن الإدخال بقاعدة المصادر الموثقة فعليًا عبر واجهة <code>/verify</code>، ولا يختلق نصًا أو مرجعًا.</p>
+  </div>
+  <div class="container tool-layout">
+    <div class="panel">
+      <h3>النص المراد التحقق منه</h3>
+      <textarea class="textarea" id="claimInput" placeholder="ألصق هنا آية أو حديثًا أو نقلًا..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="verifyBtn" onclick="verifyClaim()">تحقق من الاقتباس ✓</button>
+        <button class="btn btn-secondary" onclick="loadExample()">تحميل مثال</button>
+        <button class="btn btn-secondary" onclick="clearVerifier()">مسح</button>
+      </div>
+      <div id="verificationResult"></div>
+    </div>
+
+    <aside class="panel">
+      <h3>حالات النتيجة</h3>
+      <div class="results" style="margin-top:0">
+        <div class="result"><span class="badge">مطابق</span><p style="margin:7px 0 0;color:#68708f;font-size:13px">النص يطابق سجلًا موثقًا.</p></div>
+        <div class="result"><span class="badge">مطابق بالمعنى</span><p style="margin:7px 0 0;color:#68708f;font-size:13px">المعنى قريب، لكن اللفظ يختلف.</p></div>
+        <div class="result"><span class="badge">غير مطابق</span><p style="margin:7px 0 0;color:#68708f;font-size:13px">يوجد مصدر قريب، لكن النص المدخل ليس هو النص الموثق.</p></div>
+        <div class="result"><span class="badge">لم يُعثر عليه</span><p style="margin:7px 0 0;color:#68708f;font-size:13px">لا يوجد دليل كافٍ؛ الامتناع والإحالة إلى مختص.</p></div>
+      </div>
+    </aside>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div><strong>قاموس</strong> — أدوات المعرفة والتحقق للمحتوى الإسلامي الرقمي</div>
+    <small>متصل بخادم FastAPI الحقيقي • /search • /verify</small>
+  </div>
+</footer>
+
+<div class="toast" id="toast">تمت العملية بنجاح</div>
+
+<script>
+// All data now comes from the real backend (FastAPI + Chroma + Groq).
+// No hardcoded sources, no client-side guessing — if the API has nothing,
+// the UI says so instead of inventing a result.
+
+const API_BASE = ""; // same-origin: FastAPI serves this page itself
+
+function escapeHtml(s){
+  return String(s==null?"":s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+async function apiPost(path, body){
+  const res = await fetch(API_BASE+path, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(body)
+  });
+  if(!res.ok){
+    const text = await res.text().catch(()=> "");
+    throw new Error(`خطأ من الخادم (${res.status}): ${text || res.statusText}`);
+  }
+  return res.json();
+}
+
+/* ---------- باحث المصادر ---------- */
+
+function renderSources(items){
+  const box=document.getElementById("sourceResults");
+  if(!items || !items.length){
+    box.innerHTML='<div class="empty">لم نجد نتيجة في قاعدة المصادر الحالية. جرّب كلمة أخرى، أو تأكد أن الفهرس مبني (python -m app.build_index).</div>';
+    return;
+  }
+  box.innerHTML=items.map(r=>`
+    <article class="result">
+      <div class="result-top">
+        <div>
+          <h4>${escapeHtml(r.source)}</h4>
+          <div class="meta">${escapeHtml(r.reference)}${r.grade?" • "+escapeHtml(r.grade):""}${r.narrator?" • الراوي: "+escapeHtml(r.narrator):""}</div>
+        </div>
+        <span class="badge">موثق</span>
+      </div>
+      <div class="quote">${escapeHtml(r.text)}</div>
+      ${r.url ? `<div style="margin-top:10px"><a class="btn btn-secondary" style="padding:7px 11px;font-size:12px" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">فتح المصدر ↗</a></div>` : ""}
+    </article>`).join("");
+}
+
+let searchDebounce=null;
+function onSearchInputChanged(){
+  clearTimeout(searchDebounce);
+  searchDebounce=setTimeout(searchSources, 450);
+}
+document.addEventListener("DOMContentLoaded", ()=>{
+  const input=document.getElementById("sourceSearch");
+  if(input) input.addEventListener("input", onSearchInputChanged);
+  const claim=document.getElementById("claimInput");
+  if(claim) claim.addEventListener("keydown", e=>{
+    if(e.key==="Enter" && (e.metaKey||e.ctrlKey)) verifyClaim();
+  });
+});
+
+async function searchSources(){
+  const q=document.getElementById("sourceSearch").value.trim();
+  const btn=document.getElementById("searchBtn");
+  const helper=document.getElementById("searchHelper");
+  if(!q){
+    document.getElementById("sourceResults").innerHTML="";
+    return;
+  }
+  btn.disabled=true;
+  helper.classList.remove("err");
+  helper.textContent="جارٍ البحث في قاعدة المصادر...";
+  try{
+    const data = await apiPost("/search", {query:q});
+    renderSources(data.results);
+    helper.textContent="اكتب سؤالك أو جزءًا من النص، ثم اضغط «بحث». النتائج تأتي من قاعدة المصادر الحقيقية فقط.";
+  }catch(err){
+    helper.classList.add("err");
+    helper.textContent="تعذر الاتصال بالخادم: "+err.message;
+    document.getElementById("sourceResults").innerHTML="";
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+/* ---------- مدقق الاقتباسات ---------- */
+
+const STATUS_MAP = {
+  exact_match:      {cls:"exact",   badge:"مطابق",            title:"النص مطابق لسجل موثق"},
+  minor_difference: {cls:"meaning", badge:"مطابق بالمعنى",     title:"قريب من نص موثق، مع فرق طفيف"},
+  mismatch:         {cls:"wrong",   badge:"غير مطابق",         title:"غير مطابق للسجل الأقرب"},
+  not_found:        {cls:"unknown", badge:"لم يُعثر عليه",     title:"لا يوجد دليل كافٍ"},
+};
+
+function renderVerification(data){
+  const out=document.getElementById("verificationResult");
+  const info = STATUS_MAP[data.status] || STATUS_MAP.not_found;
+  const score = typeof data.similarity === "number" ? Math.round(data.similarity) : null;
+
+  let html = `<div class="status ${info.cls}">
+      <div class="status-title">${info.title}</div>
+      <small>${info.badge}${data.difference_type ? " • نوع الفرق: "+escapeHtml(data.difference_type) : ""}</small>`;
+
+  if(score !== null){
+    html += `<div class="score"><i style="width:${score}%"></i></div>
+              <small>درجة التشابه النصي: ${score}%</small>`;
+  }
+
+  if(data.status === "not_found"){
+    html += `<p style="margin:12px 0 0;color:#4f587a">لم نجد مرجعًا موثقًا كافيًا لهذا النص في قاعدة المصادر الحالية. قاعدة الأمان هنا هي الامتناع عن التخمين والإحالة إلى مختص، بدل اختلاق مصدر.</p>`;
+  }
+
+  if(data.source){
+    html += `<div class="quote" style="margin-top:12px">${escapeHtml(data.source.text)}</div>
+             <div class="meta" style="margin-top:8px">${escapeHtml(data.source.source)} • ${escapeHtml(data.source.reference)}${data.source.grade?" • "+escapeHtml(data.source.grade):""}${data.source.narrator?" • الراوي: "+escapeHtml(data.source.narrator):""}</div>`;
+    if(data.source.url){
+      html += `<a class="btn btn-secondary" style="padding:7px 11px;font-size:12px;margin-top:5px" href="${escapeHtml(data.source.url)}" target="_blank" rel="noopener">فتح المرجع ↗</a>`;
+    }
+  }
+
+  html += `</div>`;
+  out.innerHTML = html;
+}
+
+async function verifyClaim(){
+  const input=document.getElementById("claimInput").value.trim();
+  const out=document.getElementById("verificationResult");
+  const btn=document.getElementById("verifyBtn");
+  if(!input){
+    out.innerHTML='<div class="helper">اكتب النص أولًا حتى نتمكن من التحقق.</div>';
+    return;
+  }
+  btn.disabled=true;
+  out.innerHTML='<div class="helper">جارٍ التحقق من النص مقابل قاعدة المصادر...</div>';
+  try{
+    const data = await apiPost("/verify", {text: input});
+    renderVerification(data);
+    showToast("تم التحقق");
+  }catch(err){
+    out.innerHTML = `<div class="helper err">تعذر الاتصال بالخادم: ${escapeHtml(err.message)}</div>`;
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+function loadExample(){
+  document.getElementById("claimInput").value="إنما الأعمال بالنيات";
+  verifyClaim();
+}
+function clearVerifier(){
+  document.getElementById("claimInput").value="";
+  document.getElementById("verificationResult").innerHTML="";
+}
+
+/* ---------- تنقّل الصفحة ---------- */
+
+function toggleMenu(){document.getElementById("navlinks").classList.toggle("open")}
+function route(){
+  const hash=(location.hash||"#home").slice(1);
+  const id=["home","researcher","verifier"].includes(hash)?hash:"home";
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+  document.querySelectorAll(".navlinks a").forEach(a=>a.classList.toggle("active",a.dataset.route===id));
+  document.getElementById("navlinks").classList.remove("open");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+window.addEventListener("hashchange",route);
+
+async function loadCaseCount(){
+  // Best-effort: if tests/test_cases.json is ever exposed statically this
+  // could be fetched; for now this is just a static label fallback.
+  const el=document.getElementById("caseCountMetric");
+  if(el) el.textContent="٧٠+";
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  route();
+  loadCaseCount();
+});
+</script>
+</body>
+</html>
